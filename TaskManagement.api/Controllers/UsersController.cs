@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManagement.api.Models;
 using Microsoft.AspNetCore.Identity;
+using TaskManagement.api.Data;
 
 namespace TaskManagement.api.Controllers
 {
@@ -15,7 +16,6 @@ namespace TaskManagement.api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly TaskDbContext _context;
-
         public UsersController(TaskDbContext context)
         {
             _context = context;

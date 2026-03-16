@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using TaskManagement.api.Models;
+using TaskManagement.api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +10,6 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<TaskDbContext>(opt =>
 opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-
 
 var app = builder.Build();
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TaskManagement.api.Data;
 using TaskManagement.api.Models;
 
 namespace TaskManagement.api.Controllers
@@ -14,7 +15,6 @@ namespace TaskManagement.api.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly TaskDbContext _context;
-
         public ProjectsController(TaskDbContext context)
         {
             _context = context;
