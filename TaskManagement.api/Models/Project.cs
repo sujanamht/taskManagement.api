@@ -11,8 +11,10 @@ namespace TaskManagement.api.Models
         public int ProjectId { get; set; }
         public string ProjTitle { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+
         public int UserId { get; set; } 
-        public User User { get; set; } = null!; // Navigation property to User    
+        public User User { get; set; } = null!; // Navigation property to User
+                                                // 
         public DateTime CreatedAt { get; set; }
         public DateTime StartDate { get; set; } 
         public DateTime EndDate { get; set; } 
@@ -21,9 +23,9 @@ namespace TaskManagement.api.Models
     }
     public enum ProjectStatus
     {
-        Todo = 1,
-        InProgress =2,
-        Done =3
+        Todo = 0,
+        InProgress =1,
+        Done =2
     }
 
     public class ProjectCreateDto
@@ -35,6 +37,8 @@ namespace TaskManagement.api.Models
         public int UserId { get; set; }
         public DateTime StartDate { get; set; } 
         public DateTime EndDate { get; set; }
+        
+        // no status as  default status is Todo:0
     }
 
     public class ProjectGetDto
@@ -43,7 +47,12 @@ namespace TaskManagement.api.Models
         public string ProjTitle { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public int UserId { get; set; }
+        public string UserName { get; set; } = string.Empty;
         public ProjectStatus Status { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 
     public class ProjectUpdateDto
@@ -61,10 +70,21 @@ namespace TaskManagement.api.Models
     {
         public void Configure(EntityTypeBuilder<Project> builder)
         {
-            builder.HasKey(p => p.ProjectId);
-            builder.Property(p => p.ProjTitle).IsRequired().HasMaxLength(100);
-            builder.Property(p => p.Description).HasMaxLength(500);
-            builder.Property(p => p.CreatedAt).HasDefaultValueSql("GETUTCDATE()"); // Automatically set to current UTC time when a new project is created.
+            builder.HasKey(p => p.ProjectId); // Set ProjectId as the primary key.
+
+            builder.Property(p => p.ProjTitle)
+                   .IsRequired()
+                   .HasMaxLength(100); // ProjTitle is required and has a maximum length of 100 characters.
+
+            builder.Property(p => p.Description)
+                   .HasMaxLength(500); // maximum length of 500 characters.
+
+            builder.Property(p => p.CreatedAt)
+                   .HasDefaultValueSql("GETUTCDATE()"); // Automatically set to current UTC time when a new project is created.
+
+            builder.Property(p => p.Status)
+                   .HasDefaultValue(ProjectStatus.Todo);
+
             // Define relationship with User
             builder.HasOne(p => p.User)
                    .WithMany(u => u.Projects)

@@ -62,47 +62,11 @@ namespace TaskManagement.api.Controllers
             return Ok(user);
         }
 
-        // PUT: api/Users/5
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UpdateUserDto dto)
-        {
-            var user = await _context.Users.FindAsync(id);
-
-            if (user == null)
-            {
-                return NotFound("User not found.");
-            }
-
-            var emailExists = await _context.Users.AnyAsync(u => u.Email == dto.Email && u.UserId != id);
-            if (emailExists)
-            {
-                return BadRequest("Email already exists.");
-            }
-
-            user.FirstName = dto.FirstName;
-            user.LastName = dto.LastName;
-            user.Email = dto.Email;
-            user.Role = dto.Role;
-            user.UpdatedAt = DateTime.UtcNow;
-
-            await _context.SaveChangesAsync();
-
-            return Ok(new
-            {
-                user.UserId,
-                user.FirstName,
-                user.LastName,
-                user.Email,
-                user.Role,
-                user.UpdatedAt
-            });
-        }
 
         // POST: api/Users
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register (RegisterDto dto)
+        public async Task<IActionResult> Register (UserCreateDto dto)
         {
             if (await _context.Users.AnyAsync(u => u.Email == dto.Email))
             {
@@ -154,7 +118,44 @@ namespace TaskManagement.api.Controllers
                 user.FirstName,
                 user.LastName,
                 user.Email,
-                user.Role
+                user.Role       //so the frontend knows what permissions the user has.
+            });
+        }
+
+        // PUT: api/Users/5
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, UserUpdateDto dto)
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var emailExists = await _context.Users.AnyAsync(u => u.Email == dto.Email && u.UserId != id);
+            if (emailExists)
+            {
+                return BadRequest("Email already exists.");
+            }
+
+            user.FirstName = dto.FirstName;
+            user.LastName = dto.LastName;
+            user.Email = dto.Email;
+            user.Role = dto.Role;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                user.UserId,
+                user.FirstName,
+                user.LastName,
+                user.Email,
+                user.Role,
+                user.UpdatedAt
             });
         }
 
