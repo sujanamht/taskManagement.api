@@ -25,7 +25,7 @@ namespace TaskManagement.api.Models
     {
         Todo = 0,
         InProgress =1,
-        Done =2
+        Completed =2
     }
 
     public class ProjectCreateDto
@@ -37,8 +37,9 @@ namespace TaskManagement.api.Models
         public int UserId { get; set; }
         public DateTime StartDate { get; set; } 
         public DateTime EndDate { get; set; }
-        
-        // no status as  default status is Todo:0
+        public ProjectStatus Status { get; set; }
+
+
     }
 
     public class ProjectGetDto

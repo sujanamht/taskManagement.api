@@ -24,7 +24,7 @@ namespace TaskManagement.api.Controllers
             var tasks = await _context.TaskItems
                 .Select(t => new TaskItemGetDto
                 {
-                    TaskId = t.TaskId,
+                    TaskId = t.TaskItemId,
                     TaskTitle = t.TaskTitle,
                     Description = t.Description,
                     ProjectId = t.ProjectId,
@@ -45,10 +45,10 @@ namespace TaskManagement.api.Controllers
         public async Task<ActionResult<TaskItemGetDto>> GetTaskItem(int id)
         {
             var taskItem = await _context.TaskItems
-                .Where(t => t.TaskId == id)
+                .Where(t => t.TaskItemId == id)
                 .Select(t => new TaskItemGetDto
                 {
-                    TaskId = t.TaskId,
+                    TaskId = t.TaskItemId,
                     TaskTitle = t.TaskTitle,
                     Description = t.Description,
                     ProjectId = t.ProjectId,
@@ -101,7 +101,7 @@ namespace TaskManagement.api.Controllers
 
             var taskDto = new TaskItemGetDto
             {
-                TaskId = taskItem.TaskId,
+                TaskId = taskItem.TaskItemId,
                 TaskTitle = taskItem.TaskTitle,
                 Description = taskItem.Description,
                 ProjectId = taskItem.ProjectId,
@@ -112,7 +112,7 @@ namespace TaskManagement.api.Controllers
                 Priority = taskItem.Priority
             };
 
-            return CreatedAtAction(nameof(GetTaskItem), new { id = taskItem.TaskId }, taskDto);
+            return CreatedAtAction(nameof(GetTaskItem), new { id = taskItem.TaskItemId }, taskDto);
         }
 
         // PUT: api/TaskItems/5
@@ -215,7 +215,7 @@ namespace TaskManagement.api.Controllers
             var tasks = await query
                 .Select(t => new TaskItemGetDto
                 {
-                    TaskId = t.TaskId,
+                    TaskId = t.TaskItemId,
                     TaskTitle = t.TaskTitle,
                     Description = t.Description,
                     ProjectId = t.ProjectId,

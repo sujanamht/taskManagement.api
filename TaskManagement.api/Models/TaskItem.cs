@@ -7,11 +7,11 @@ namespace TaskManagement.api.Models
 { 
     public class TaskItem
     {
-        public int TaskId { get; set; }
+        public int TaskItemId { get; set; }
 
         public string TaskTitle { get; set; } = string.Empty;
 
-              public string Description { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
 
         public int ProjectId { get; set; }   // Foreign key to Project
         public Project Project { get; set; } = null!; // Navigation property to Project
@@ -83,7 +83,7 @@ namespace TaskManagement.api.Models
     {
         public void Configure(EntityTypeBuilder<TaskItem> builder)
         {
-            builder.HasKey(t => t.TaskId); // Primary key
+            builder.HasKey(t => t.TaskItemId); // Primary key
 
             builder.Property(t => t.TaskTitle)
                 .IsRequired()

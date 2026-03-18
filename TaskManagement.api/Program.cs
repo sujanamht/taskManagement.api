@@ -8,6 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
+builder.Services.AddCors(opt =>     //CORS policy error
+{
+    opt.AddPolicy("enableAll", policy =>
+    {
+        policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+    });
+});
+
 builder.Services.AddDbContext<TaskDbContext>(opt =>
 opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -15,12 +23,12 @@ opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 //If you want the API to return words instead
 //You can configure ASP.NET to serialize enums as strings.
 // Global configuration (best)
-//builder.Services.AddControllers()
-//    .AddJsonOptions(options =>
-//    {
-//        options.JsonSerializerOptions.Converters.Add(
-//            new System.Text.Json.Serialization.JsonStringEnumConverter());
-//    });
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(
+            new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
 
 var app = builder.Build();
 
@@ -31,6 +39,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("enableAll");   
 
 app.UseAuthorization();
 

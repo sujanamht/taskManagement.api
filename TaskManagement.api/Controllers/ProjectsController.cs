@@ -28,6 +28,7 @@ namespace TaskManagement.api.Controllers
                     ProjTitle = p.ProjTitle,
                     Description = p.Description,
                     UserId = p.UserId, //who created this
+                    UserName = p.User.FirstName + " " + p.User.LastName,
                     Status = p.Status,
                     CreatedAt = p.CreatedAt,
                     StartDate = p.StartDate,
@@ -90,6 +91,7 @@ namespace TaskManagement.api.Controllers
                 UserId = dto.UserId,
                 StartDate = dto.StartDate,
                 EndDate = dto.EndDate,
+                Status = dto.Status
 
             };
 
